@@ -1,8 +1,24 @@
 using BookPublisher.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Compact;
 
+// Logger Configuration
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft",LogEventLevel.Warning)
+    .Enrich.WithProcessId()
+    .Enrich.WithThreadId()
+    .Enrich.WithEnvironmentName()
+    .Enrich.WithMachineName()
+    .WriteTo.Console(new CompactJsonFormatter())
+    .WriteTo.File(new CompactJsonFormatter(), "Log/log.txt")
+    .CreateLogger();
+Log.Logger.Information("Starting up");
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog();
 // Add services to the container.
 
 builder.Services.AddControllers();
