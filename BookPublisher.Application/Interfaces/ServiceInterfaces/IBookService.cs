@@ -1,14 +1,13 @@
-﻿using System;
+﻿using BookPublisher.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BookPublisher.Application.Dto;
-using BookPublisher.Domain.Entities;
 
-namespace BookPublisher.Application.Interfaces.RepositoryInterfaces
+namespace BookPublisher.Application.Interfaces.ServiceInterfaces
 {
-    public interface IBookRepository
+    public interface IBookService
     {
         Task<IEnumerable<Book>> GetAllBooks();
         Task<Book> GetBookById(int id);
@@ -17,6 +16,5 @@ namespace BookPublisher.Application.Interfaces.RepositoryInterfaces
         Task<Book> DeleteBook(int id);
 
         Task<Publisher> GetPublisherByBook(int bookId);
-
     }
 }

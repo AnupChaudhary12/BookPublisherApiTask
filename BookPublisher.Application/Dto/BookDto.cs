@@ -14,6 +14,7 @@ namespace BookPublisher.Application.Dto
         public string Author { get; set; } = default!;
         public string ISBN { get; set; } = default!;
         public DateTime PublishedDate { get; set; }
+        public int PublisherId { get; set; }
 
     }
 }

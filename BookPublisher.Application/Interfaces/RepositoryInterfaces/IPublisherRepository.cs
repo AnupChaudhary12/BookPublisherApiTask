@@ -11,9 +11,9 @@ namespace BookPublisher.Application.Interfaces.RepositoryInterfaces
     {
         Task<IEnumerable<Publisher>> GetAllPublishers();
         Task<Publisher> GetPublisherById(int id);
-        void CreatePublisher(Publisher publisher);
-        void UpdatePublisher(Publisher publisher);
-        void DeletePublisher(int id);
+         Task<Publisher> CreatePublisher(Publisher publisher);
+         Task<Publisher> UpdatePublisher(Publisher publisher);
+         Task<Publisher> DeletePublisher(int id);
         Task<IEnumerable<Book>> GetBooksByPublisher(int publisherId);
 
     }
