@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BookPublisher.Api\BookPublisher.Domain.csproj" />
+    <ProjectReference Include="..\BookPublisher.Application\BookPublisher.Application.csproj" />
+  </ItemGroup>
+
 </Project>
