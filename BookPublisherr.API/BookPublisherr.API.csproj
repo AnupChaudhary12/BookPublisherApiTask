@@ -24,8 +24,4 @@
     <ProjectReference Include="..\BookPublisher.Infrastructure\BookPublisher.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

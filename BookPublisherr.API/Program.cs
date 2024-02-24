@@ -1,4 +1,6 @@
+using BookPublisher.Application;
 using BookPublisher.Infrastructure;
+using BookPublisher.Infrastructure.Mapper;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
@@ -13,12 +15,14 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.WithEnvironmentName()
     .Enrich.WithMachineName()
     .WriteTo.Console(new CompactJsonFormatter())
-    .WriteTo.File(new CompactJsonFormatter(), "Log/log.txt")
+    .WriteTo.File(new CompactJsonFormatter(), "Log/log.txt",rollingInterval:RollingInterval.Day)
     .CreateLogger();
 Log.Logger.Information("Starting up");
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog();
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -30,6 +34,7 @@ builder.Services.AddDbContext<BookPublisherDbContext>(options =>
         b => b.MigrationsAssembly("BookPublisher.Infrastructure")));
 
 builder.Services.AddInfrastructure();
+builder.Services.AddApplicationServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

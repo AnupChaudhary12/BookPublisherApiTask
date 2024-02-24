@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookPublisher.Application;
 using BookPublisher.Application.Interfaces.RepositoryInterfaces;
 using BookPublisher.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,8 @@ namespace BookPublisher.Infrastructure
         {
             services.AddTransient<IPublisherRepository, PublisherRepository>();
             services.AddTransient<IBookRepository, BookRepository>();
+            services.AddAutoMapper(typeof(ServiceDependencyInjection).Assembly);
+
             return services;
         }
     }
