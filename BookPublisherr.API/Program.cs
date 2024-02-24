@@ -1,6 +1,9 @@
 using BookPublisher.Application;
+using BookPublisher.Application.Dto;
+using BookPublisher.Domain.Entities;
 using BookPublisher.Infrastructure;
 using BookPublisher.Infrastructure.Mapper;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
@@ -25,7 +28,13 @@ builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(fv =>
+    {
+        fv.RegisterValidatorsFromAssemblyContaining<Book>();
+        fv.RegisterValidatorsFromAssemblyContaining<BookDto>();
+    });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

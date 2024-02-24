@@ -109,12 +109,12 @@ namespace BookPublisherr.API.Controllers
             }
         }
 
-        [HttpGet("publisher/{publisherId}")]
-        public async Task<IActionResult> GetPublisherByBook(int publisherId)
+        [HttpGet("publisher/{bookId}")]
+        public async Task<IActionResult> GetPublisherByBook(int bookId)
         {
             try
             {
-                var publisher = await _bookService.GetPublisherByBook(publisherId);
+                var publisher = await _bookService.GetPublisherByBook(bookId);
                 if (publisher == null)
                 {
                     return NotFound();
