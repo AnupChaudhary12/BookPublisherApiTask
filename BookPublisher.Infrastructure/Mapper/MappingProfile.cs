@@ -14,6 +14,9 @@ namespace BookPublisher.Infrastructure.Mapper
         public MappingProfile()
         {
             CreateMap<Book, BookDto>();
+            CreateMap<BookDto, Book>();
+            CreateMap<Book, List<BookDto>>();
+            CreateMap<BookDto, List<Book>>();
             CreateMap<Publisher, PublisherDto>()
                 .ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.Books.Select(b => b.Id)));
         }
