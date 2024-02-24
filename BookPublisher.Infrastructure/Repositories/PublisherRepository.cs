@@ -29,20 +29,32 @@ namespace BookPublisher.Infrastructure.Repositories
             return publisher;
         }
 
-        public void CreatePublisher(Publisher publisher)
+        public async Task<Publisher> CreatePublisher(Publisher publisher)
         {
-            _context.Publishers.Add(publisher);
+            var publishers = await _context.Publishers.AddAsync(publisher);
+            await _context.SaveChangesAsync();
+            return publishers.Entity;
         }
 
-        public void UpdatePublisher(Publisher publisher)
+        public async Task<Publisher> UpdatePublisher(Publisher publisher)
         {
             //_context.Publishers.Update(publisher);
             _context.Entry(publisher).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return publisher;
         }
 
-        public void DeletePublisher(int id)
+        public async Task<Publisher> DeletePublisher(int id)
         {
-            _context.Publishers.Remove(_context.Publishers.Find(id));
+            var publisher = await _context.Publishers.FindAsync(id);
+
+            if (publisher != null)
+            {
+                _context.Publishers.Remove(publisher);
+                await _context.SaveChangesAsync();
+            }
+
+            return publisher;
         }
 
         public async Task<IEnumerable<Book>> GetBooksByPublisher(int publisherId)

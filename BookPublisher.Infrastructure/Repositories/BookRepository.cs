@@ -30,20 +30,29 @@ namespace BookPublisher.Infrastructure.Repositories
             return book;
         }
 
-        public void CreateBook(Book book)
+        public async Task<Book> CreateBook(Book book)
         {
-            _context.Books.Add(book);
+            var bookCreated = await _context.Books.AddAsync(book);
+            await _context.SaveChangesAsync();
+            return bookCreated.Entity;
         }
 
-        public void UpdateBook(Book book)
+        public async Task<Book> UpdateBook(Book book)
         {
             _context.Entry(book).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return book;
         }
 
-        public void DeleteBook(int id)
+        public async Task<Book> DeleteBook(int id)
         {
-            if(_context.Books.Find(id) != null)
-                _context.Books.Remove(_context.Books.Find(id));
+            var book = await _context.Books.FindAsync(id);
+            if (book != null)
+            {
+                _context.Books.Remove(book);
+                await _context.SaveChangesAsync();
+            }
+            return book;
         }
 
         public async Task<Publisher> GetPublisherByBook(int bookId)
@@ -52,5 +61,6 @@ namespace BookPublisher.Infrastructure.Repositories
                 .FirstOrDefaultAsync(p => p.Books.Any(b => b.Id == bookId));
             return publisher;
         }
+
     }
 }
