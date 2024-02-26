@@ -32,9 +32,48 @@ namespace BookPublisher.Infrastructure.Repositories
 
         public async Task<Book> CreateBook(Book book)
         {
-            var bookCreated = await _context.Books.AddAsync(book);
-            await _context.SaveChangesAsync();
-            return bookCreated.Entity;
+            var existingISBNbooks = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == book.ISBN);
+            if (existingISBNbooks != null)
+            {
+                throw new InvalidOperationException("Book already exist with same ISBN");
+            }
+            else
+            {
+                var existingBook = await _context.Books.FirstOrDefaultAsync(b =>
+                    b.Title == book.Title &&
+                    b.Author == book.Author &&
+                    b.ISBN == book.ISBN &&
+                    b.PublishedDate == book.PublishedDate &&
+                    b.PublisherId == book.PublisherId);
+                if (existingBook != null)
+                {
+                    throw new InvalidOperationException(
+                        "Book already exist with same Title, Author, PublishedDate, Edition, PublisherId");
+                }
+                else
+                {
+                    var differentBook = await _context.Books.FirstOrDefaultAsync(b =>
+                        b.PublishedDate != book.PublishedDate ||
+                        b.Edition != book.Edition ||
+                        b.ISBN != book.ISBN ||
+                        b.PublisherId != book.PublisherId);
+                    if (differentBook != null)
+                    {
+                        var bookEntity = await _context.Books.AddAsync(book);
+                        await _context.SaveChangesAsync();
+                        return bookEntity.Entity;
+
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException(
+                            "Book already exist with same Title, Author but different Edition, ISBN, PublisherId, PublishedDate");
+                    }
+                }
+
+            }
+            
+
         }
 
         public async Task<Book> UpdateBook(Book book)

@@ -72,7 +72,7 @@ namespace BookPublisherr.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while creating book");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error while creating book");
+                return StatusCode(StatusCodes.Status500InternalServerError,ex.Message);
             }
         }
 

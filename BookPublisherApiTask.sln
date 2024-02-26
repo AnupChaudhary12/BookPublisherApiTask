@@ -5,13 +5,13 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{90878D40-7FD2-452A-952D-D92469A99B22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookPublisher.Domain", "BookPublisher.Api\BookPublisher.Domain.csproj", "{00F69ADD-722B-4131-972C-11E8CBD78606}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookPublisher.Domain", "BookPublisher.Api\BookPublisher.Domain.csproj", "{00F69ADD-722B-4131-972C-11E8CBD78606}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookPublisher.Application", "BookPublisher.Application\BookPublisher.Application.csproj", "{4555A7E0-AAA5-43FF-9200-9A5A24228EAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookPublisher.Application", "BookPublisher.Application\BookPublisher.Application.csproj", "{4555A7E0-AAA5-43FF-9200-9A5A24228EAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookPublisher.Infrastructure", "BookPublisher.Infrastructure\BookPublisher.Infrastructure.csproj", "{8AF9F21E-E711-418B-9142-BD7CEA7B56E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookPublisher.Infrastructure", "BookPublisher.Infrastructure\BookPublisher.Infrastructure.csproj", "{8AF9F21E-E711-418B-9142-BD7CEA7B56E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookPublisherr.API", "BookPublisherr.API\BookPublisherr.API.csproj", "{E918F6A5-8A41-4053-A714-0155A636A722}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookPublisherr.API", "BookPublisherr.API\BookPublisherr.API.csproj", "{E918F6A5-8A41-4053-A714-0155A636A722}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

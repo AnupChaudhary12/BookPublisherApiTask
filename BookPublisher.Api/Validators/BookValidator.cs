@@ -18,6 +18,8 @@ namespace BookPublisher.Domain.Validators
             RuleFor(x => x.ISBN).MaximumLength(13).WithMessage("ISBN can not be longer than 13 characters");
             RuleFor(x => x.Author).NotEmpty().WithMessage("Author is required");
             RuleFor(x => x.Author).MaximumLength(100).WithMessage("Author can not be longer than 100 characters");
+            RuleFor(x => x.Edition).NotEmpty().WithMessage("Edition is required");
+            RuleFor(x => x.Edition).MaximumLength(100).WithMessage("Edition can not be longer than 100 characters");
             RuleFor(x => x.PublisherId).NotEmpty().WithMessage("Publisher is required");
             RuleFor(x => x.PublisherId).GreaterThan(0).WithMessage("Publisher is required");
             RuleFor(x => x.PublishedDate)

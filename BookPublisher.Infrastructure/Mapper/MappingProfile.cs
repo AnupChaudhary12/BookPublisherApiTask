@@ -19,7 +19,6 @@ namespace BookPublisher.Infrastructure.Mapper
             CreateMap<PublisherDto, Publisher>()
                 .ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.Books));
 
-            CreateMap<BookDto, Book>().ReverseMap();
         }
     }
 }
