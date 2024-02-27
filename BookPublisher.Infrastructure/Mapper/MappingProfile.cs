@@ -11,13 +11,13 @@ namespace BookPublisher.Infrastructure.Mapper
         public MappingProfile()
         {
             CreateMap<Book, BookDto>().ReverseMap();
-            
 
-            CreateMap<Publisher, PublisherDto>()
-                .ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.Books));
 
-            CreateMap<PublisherDto, Publisher>()
-                .ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.Books));
+            CreateMap<Publisher, PublisherDto>();
+                //.ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.Books));
+
+                CreateMap<PublisherDto, Publisher>();
+                //.ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.Books));
 
         }
     }

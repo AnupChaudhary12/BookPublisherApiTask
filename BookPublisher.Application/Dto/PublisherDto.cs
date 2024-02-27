@@ -15,6 +15,6 @@ namespace BookPublisher.Application.Dto
         public string Name { get; set; } = default!;
         public string Address { get; set; } = default!;
         public string Email { get; set; } = default!;
-        public List<BookDto>? Books { get; set; }
+        //public List<BookDto>? Books { get; set; }
     }
 }
