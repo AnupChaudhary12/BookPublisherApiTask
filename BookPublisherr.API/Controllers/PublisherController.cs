@@ -60,15 +60,14 @@ namespace BookPublisherr.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePublisher([FromBody]PublisherDto publisherDto)
+        public async Task<IActionResult> CreatePublisher([FromBody]PublisherCreateDto publisherCreateDto)
         {
             try
             {
-                var publisher = _mapper.Map<Publisher>(publisherDto);
+                var publisher = _mapper.Map<Publisher>(publisherCreateDto);
                 var createdPublisher = await _publisherService.CreatePublisher(publisher);
                 var createdPublisherDto = _mapper.Map<PublisherDto>(createdPublisher);
-                return CreatedAtAction(nameof(GetPublisherById), new { id = createdPublisherDto.Id },
-                    createdPublisherDto);
+                return Created(nameof(GetPublisherById), createdPublisherDto);
             }
             catch (Exception ex)
             {

@@ -12,7 +12,6 @@ namespace BookPublisher.Application.Validators
     {
         public PublisherDtoValidator()
         {
-            RuleFor(x=>x.Id).NotEmpty().WithMessage("Id is required");
             RuleFor(x=>x.Name).NotEmpty().WithMessage("Name is required");
             RuleFor(x=>x.Name).MaximumLength(100).WithMessage("Name can not be longer than 100 characters");
             RuleFor(x=>x.Address).NotEmpty().WithMessage("Address is required");

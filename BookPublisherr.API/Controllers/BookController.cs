@@ -60,14 +60,14 @@ namespace BookPublisherr.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBook([FromBody] BookDto bookDto)
+        public async Task<IActionResult> CreateBook([FromBody] BookCreateDto bookCreateDto)
         {
             try
             {
-                var book = _mapper.Map<Book>(bookDto);
+                var book = _mapper.Map<Book>(bookCreateDto);
                 var createdBook = await _bookService.CreateBook(book);
                 var createdBookDto = _mapper.Map<BookDto>(createdBook);
-                return CreatedAtAction(nameof(GetBookById), new { id = createdBookDto.Id }, createdBookDto);
+                return Created(nameof(GetBookById),/* new { id = createdBookDto.Id },*/ createdBookDto);
             }
             catch (Exception ex)
             {
@@ -92,6 +92,28 @@ namespace BookPublisherr.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error while updating book");
             }
         }
+
+
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateBook(int id, [FromBody] BookDto bookDto)
+        //{
+        //    try
+        //    {
+        //        bookDto.Id = id;
+
+        //        var book = _mapper.Map<Book>(bookDto);
+        //        var updatedBook = await _bookService.UpdateBook(book);
+        //        var updatedBookDto = _mapper.Map<BookDto>(updatedBook);
+
+        //        return Ok(updatedBookDto);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error while updating book");
+        //        return StatusCode(StatusCodes.Status500InternalServerError, "Error while updating book");
+        //    }
+        //}
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook(int id)
