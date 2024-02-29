@@ -20,41 +20,34 @@ namespace BookPublisher.Application.Services
             _publisherRepository= publisherRepository;
         }
 
-        public async Task<IEnumerable<Publisher>> GetAllPublishers()
+        public async  Task<IEnumerable<PublisherDto>> GetAllPublishersAsync()
         {
-            var publishers = await _publisherRepository.GetAllPublishers();
-            return publishers;
+            return await _publisherRepository.GetAllPublishersAsync();
         }
 
-        public async Task<Publisher> GetPublisherById(int id)
+        public async Task<PublisherDto> GetPublisherByIdAsync(int id)
         {
-            var publisher = await _publisherRepository.GetPublisherById(id);
-            return publisher;
+            return await _publisherRepository.GetPublisherByIdAsync(id);
         }
 
-        public async Task<Publisher> CreatePublisher(Publisher publisher)
+        public async Task<PublisherDto> CreatePublisherAsync(PublisherCreateDto publisherCreateDto)
         {
-            var createdPublisher = await _publisherRepository.CreatePublisher(publisher);
-            return createdPublisher;
+            return await _publisherRepository.CreatePublisherAsync(publisherCreateDto);
         }
 
-        public async Task<Publisher> UpdatePublisher(Publisher publisher)
+        public async Task<PublisherDto> UpdatePublisherAsync(int id, PublisherDto publisherDto)
         {
-            await _publisherRepository.UpdatePublisher(publisher);
-            return publisher;
+            return await _publisherRepository.UpdatePublisherAsync(id, publisherDto);
         }
 
-        public async  Task<Publisher> DeletePublisher(int id)
+        public async Task<PublisherDto> DeletePublisherAsync(int id)
         {
-            var deletedPublisher = await _publisherRepository.DeletePublisher(id);
-            return deletedPublisher;
+           return await _publisherRepository.DeletePublisherAsync(id);
         }
 
-
-        public async Task<IEnumerable<BookDto>> GetBooksByPublisher(int publisherId)
+        public async Task<IEnumerable<BookDto>> GetBooksByPublisherAsync(int publisherId)
         {
-            var books = await _publisherRepository.GetBooksByPublisher(publisherId);
-            return books;
+            return await _publisherRepository.GetBooksByPublisherAsync(publisherId);
         }
     }
 }

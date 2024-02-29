@@ -11,11 +11,11 @@ namespace BookPublisher.Application.Interfaces.ServiceInterfaces
 {
     public interface IPublisherService
     {
-        Task<IEnumerable<Publisher>> GetAllPublishers();
-        Task<Publisher> GetPublisherById(int id);
-        Task<Publisher> CreatePublisher(Publisher publisher);
-        Task<Publisher> UpdatePublisher(Publisher publisher);
-        Task<Publisher> DeletePublisher(int id);
-        Task<IEnumerable<BookDto>> GetBooksByPublisher(int publisherId);
+        Task<IEnumerable<PublisherDto>> GetAllPublishersAsync();
+        Task<PublisherDto> GetPublisherByIdAsync(int id);
+        Task<PublisherDto> CreatePublisherAsync(PublisherCreateDto publisherCreateDto);
+        Task<PublisherDto> UpdatePublisherAsync(int id,PublisherDto publisherDto);
+        Task<PublisherDto> DeletePublisherAsync(int id);
+        Task<IEnumerable<BookDto>> GetBooksByPublisherAsync(int publisherId);
     }
 }
