@@ -16,8 +16,8 @@ namespace BookPublisher.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddTransient<IPublisherRepository, PublisherRepository>();
-            services.AddTransient<IBookRepository, BookRepository>();
+            services.AddScoped<IPublisherRepository, PublisherRepository>();
+            services.AddScoped<IBookRepository, BookRepository>();
             services.AddAutoMapper(typeof(ServiceDependencyInjection).Assembly);
 
             return services;

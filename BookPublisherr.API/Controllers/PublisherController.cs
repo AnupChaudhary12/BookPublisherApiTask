@@ -4,6 +4,7 @@ using BookPublisher.Application.Interfaces.ServiceInterfaces;
 using BookPublisher.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using BookDto = BookPublisher.Application.Dto.BookDto;
 
 namespace BookPublisherr.API.Controllers
 {

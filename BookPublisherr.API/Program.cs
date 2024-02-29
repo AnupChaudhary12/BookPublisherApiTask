@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Text.Json.Serialization;
 using BookPublisher.Application;
 using BookPublisher.Application.Dto;
 using BookPublisher.Domain.Entities;
@@ -8,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
+using BookDto = BookPublisher.Domain.Entities.BookDto;
 
 // Logger Configuration
 Log.Logger = new LoggerConfiguration()
@@ -31,9 +34,16 @@ builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 builder.Services.AddControllers()
     .AddFluentValidation(fv =>
     {
-        fv.RegisterValidatorsFromAssemblyContaining<Book>();
         fv.RegisterValidatorsFromAssemblyContaining<BookDto>();
+        fv.RegisterValidatorsFromAssemblyContaining<BookPublisher.Application.Dto.BookDto>();
     });
+//    .AddJsonOptions(options =>
+//    {
+//        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull; // Ignore null values
+//    options.JsonSerializerOptions.PropertyNamingPolicy = null; // Keep property names as they are, preserve property names
+//    options.JsonSerializerOptions.WriteIndented = true; // Pretty print JSON
+//    options.JsonSerializerOptions.Converters.Add(new DateTimeConverter("yyyy-MM-dd")); // Convert enums to string
+//});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

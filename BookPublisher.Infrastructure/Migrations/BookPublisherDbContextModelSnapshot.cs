@@ -17,7 +17,7 @@ namespace BookPublisher.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
 
-            modelBuilder.Entity("BookPublisher.Domain.Entities.Book", b =>
+            modelBuilder.Entity("BookPublisher.Domain.Entities.BookDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,7 +75,7 @@ namespace BookPublisher.Infrastructure.Migrations
                     b.ToTable("Publishers");
                 });
 
-            modelBuilder.Entity("BookPublisher.Domain.Entities.Book", b =>
+            modelBuilder.Entity("BookPublisher.Domain.Entities.BookDto", b =>
                 {
                     b.HasOne("BookPublisher.Domain.Entities.Publisher", "Publisher")
                         .WithMany("Books")

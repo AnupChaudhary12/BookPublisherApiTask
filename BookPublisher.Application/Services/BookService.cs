@@ -4,55 +4,49 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookPublisher.Application.Dto;
 using BookPublisher.Application.Interfaces.RepositoryInterfaces;
 using BookPublisher.Application.Interfaces.ServiceInterfaces;
 using BookPublisher.Domain.Entities;
+using BookDto = BookPublisher.Domain.Entities.BookDto;
 
 namespace BookPublisher.Application.Services
 {
-    public class BookService: IBookService
+    public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
-
         public BookService(IBookRepository bookRepository)
         {
-            _bookRepository= bookRepository;
+            _bookRepository = bookRepository;
         }
-        public async Task<IEnumerable<Book>> GetAllBooks()
+        async Task<Dto.BookDto> IBookService.GetBookByIdAsync(int id)
         {
-            var books = await _bookRepository.GetAllBooks();
-            return books;
-        }
-
-        public async Task<Book> GetBookById(int id)
-        {
-            var book =await _bookRepository.GetBookById(id);
-            return book;
+            return await _bookRepository.GetBookByIdAsync(id);
         }
 
-        public async Task<Book> CreateBook(Book book)
+        async Task<Dto.BookDto> IBookService.CreateBookAsync(BookCreateDto bookCreateDto)
         {
-            var createdBook = await _bookRepository.CreateBook(book);
-            return createdBook;
+            return await _bookRepository.CreateBookAsync(bookCreateDto);
         }
 
-        public async Task<Book> UpdateBook(Book book)
+        public async Task<Dto.BookDto> UpdateBookAsync(int id, Dto.BookDto bookDto)
         {
-            var updatedBook = await _bookRepository.UpdateBook(book);
-            return updatedBook;
+            return await _bookRepository.UpdateBookAsync(id, bookDto);
         }
 
-        public async Task<Book> DeleteBook(int id)
+        async Task<Dto.BookDto> IBookService.DeleteBookAsync(int id)
         {
-            var deletedBook =await _bookRepository.DeleteBook(id);
-            return deletedBook;
-
+            return await _bookRepository.DeleteBookAsync(id);
         }
 
-        public async Task<Publisher> GetPublisherByBook(int bookId)
+        public async Task<PublisherDto> GetPublisherByBookAsync(int bookId)
         {
-            var publisher = await _bookRepository.GetPublisherByBook(bookId);
-            return publisher;
+            return await _bookRepository.GetPublisherByBookAsync(bookId);
+        }
+
+        async Task<IEnumerable<Dto.BookDto>> IBookService.GetAllBooksAsync()
+        {
+            return await _bookRepository.GetAllBooksAsync();
         }
     }
 }

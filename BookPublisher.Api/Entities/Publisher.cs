@@ -15,6 +15,6 @@ namespace BookPublisher.Domain.Entities
         public string Name { get; set; } = default!;
         public string Address { get; set; } = default!;
         public string Email { get; set; } = default!;
-        public ICollection<Book> Books { get; set; } 
+        public ICollection<BookDto> Books { get; set; } 
     }
 }

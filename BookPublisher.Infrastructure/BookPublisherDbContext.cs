@@ -13,7 +13,7 @@ namespace BookPublisher.Infrastructure
         public BookPublisherDbContext(DbContextOptions<BookPublisherDbContext> options) : base(options)
         {
         }
-        public DbSet<Book> Books { get; set; }
+        public DbSet<BookDto> Books { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
     }
 }

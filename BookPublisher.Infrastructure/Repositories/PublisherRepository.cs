@@ -57,7 +57,7 @@ namespace BookPublisher.Infrastructure.Repositories
             return publisher;
         }
 
-        public async Task<IEnumerable<Book>> GetBooksByPublisher(int publisherId)
+        public async Task<IEnumerable<BookDto>> GetBooksByPublisher(int publisherId)
         {
             var books = await _context.Books.Where(b => b.PublisherId == publisherId).ToListAsync();
             return books;

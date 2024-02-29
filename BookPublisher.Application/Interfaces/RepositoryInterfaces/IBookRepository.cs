@@ -5,18 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using BookPublisher.Application.Dto;
 using BookPublisher.Domain.Entities;
+using BookDto = BookPublisher.Application.Dto.BookDto;
 
 namespace BookPublisher.Application.Interfaces.RepositoryInterfaces
 {
     public interface IBookRepository
     {
-        Task<IEnumerable<Book>> GetAllBooks();
-        Task<Book> GetBookById(int id);
-        Task<Book> CreateBook(Book book);
-        Task<Book> UpdateBook(Book book);
-        Task<Book> DeleteBook(int id);
+        Task<IEnumerable<BookDto>> GetAllBooksAsync();
+        Task<BookDto> GetBookByIdAsync(int id);
+        Task<BookDto> CreateBookAsync(BookCreateDto book);
+        Task<BookDto> UpdateBookAsync(int id,BookDto book);
+        Task<BookDto> DeleteBookAsync(int id);
 
-        Task<Publisher> GetPublisherByBook(int bookId);
+        Task<PublisherDto> GetPublisherByBookAsync(int bookId);
 
     }
 }

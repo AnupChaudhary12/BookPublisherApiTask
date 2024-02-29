@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using SharedUtility;
 
 namespace BookPublisher.Domain.Entities
 {
-    public class Book
+    public class BookDto
     {
         [Key]
         [Required]
@@ -16,9 +18,12 @@ namespace BookPublisher.Domain.Entities
         public string Author { get; set; } = default!;
         public string Edition { get; set; } = default!;
         public string ISBN { get; set; } = default!;
+        //[JsonConverter(typeof(JsonDateFormatConverter))]
         public DateTime PublishedDate { get; set; }
 
         public int PublisherId { get; set; }
-        public Publisher? Publisher { get; set; } 
+        public  Publisher? Publisher { get; set; } 
+
+
     }
 }

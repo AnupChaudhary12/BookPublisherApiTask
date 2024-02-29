@@ -7,6 +7,7 @@ using BookPublisher.Application.Dto;
 using BookPublisher.Application.Interfaces.RepositoryInterfaces;
 using BookPublisher.Application.Interfaces.ServiceInterfaces;
 using BookPublisher.Domain.Entities;
+using BookDto = BookPublisher.Domain.Entities.BookDto;
 
 namespace BookPublisher.Application.Services
 {
@@ -50,7 +51,7 @@ namespace BookPublisher.Application.Services
         }
 
 
-        public async Task<IEnumerable<Book>> GetBooksByPublisher(int publisherId)
+        public async Task<IEnumerable<BookDto>> GetBooksByPublisher(int publisherId)
         {
             var books = await _publisherRepository.GetBooksByPublisher(publisherId);
             return books;

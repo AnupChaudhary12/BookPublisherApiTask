@@ -8,97 +8,157 @@ using AutoMapper;
 using BookPublisher.Application.Dto;
 using BookPublisher.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using BookDto = BookPublisher.Domain.Entities.BookDto;
 
 namespace BookPublisher.Infrastructure.Repositories
 {
     public class BookRepository: IBookRepository
     {
         private readonly BookPublisherDbContext _context;
-        public BookRepository(BookPublisherDbContext context)
+        private readonly IMapper _mapper;
+        private readonly ILogger<BookRepository> _logger;
+        public BookRepository(BookPublisherDbContext context, IMapper mapper, ILogger<BookRepository> logger)
         {
-            _context= context;
+            _context = context;
+            _mapper = mapper;
+            _logger = logger;
         }
-        public async Task<IEnumerable<Book>> GetAllBooks()
+        public async Task<IEnumerable<Application.Dto.BookDto>> GetAllBooksAsync()
         {
-            List<Book> books = await _context.Books.ToListAsync();
-            return books;
-        }
-
-        public async Task<Book> GetBookById(int id)
-        {
-            var book = await _context.Books.FindAsync(id);
-            return book;
-        }
-
-        public async Task<Book> CreateBook(Book book)
-        {
-            var existingISBNbooks = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == book.ISBN);
-            if (existingISBNbooks != null)
+            try
             {
-                throw new InvalidOperationException("Book already exist with same ISBN");
+                var books = await _context.Books.ToListAsync();
+                return _mapper.Map<IEnumerable<Application.Dto.BookDto>>(books);
             }
-            else
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Error while getting all books");
+                throw;
+            }
+        }
+
+        public async Task<Application.Dto.BookDto> GetBookByIdAsync(int id)
+        {
+            try
+            {
+                var book = await _context.Books.FindAsync(id);
+                return _mapper.Map<Application.Dto.BookDto>(book);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while getting book by id");
+                throw;
+            }
+        }
+
+        public async Task<Application.Dto.BookDto> CreateBookAsync(BookCreateDto bookCreateDto)
+        {
+            try
+            {
+                var existingISBNbooks = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == bookCreateDto.ISBN);
+                if (existingISBNbooks != null)
+                {
+                    throw new InvalidOperationException("BookDto already exist with same ISBN");
+                }
+
                 var existingBook = await _context.Books.FirstOrDefaultAsync(b =>
-                    b.Title == book.Title &&
-                    b.Author == book.Author &&
-                    b.ISBN == book.ISBN &&
-                    b.PublishedDate == book.PublishedDate &&
-                    b.PublisherId == book.PublisherId);
+                    b.Title == bookCreateDto.Title &&
+                    b.Author == bookCreateDto.Author &&
+                    b.ISBN == bookCreateDto.ISBN &&
+                    b.PublishedDate == bookCreateDto.PublishedDate &&
+                    b.PublisherId == bookCreateDto.PublisherId);
                 if (existingBook != null)
                 {
                     throw new InvalidOperationException(
-                        "Book already exist with same Title, Author, PublishedDate, Edition, PublisherId");
+                        "BookDto already exist with same Title, Author, PublishedDate, Edition, PublisherId");
+                }
+
+                var differentBook = await _context.Books.FirstOrDefaultAsync(b =>
+                    b.PublishedDate != bookCreateDto.PublishedDate ||
+                    b.Edition != bookCreateDto.Edition ||
+                    b.ISBN != bookCreateDto.ISBN ||
+                    b.PublisherId != bookCreateDto.PublisherId);
+                if (differentBook != null)
+                {
+                    var book = _mapper.Map<BookDto>(bookCreateDto);
+                    _context.Books.Add(book);
+                    await _context.SaveChangesAsync();
+                    return _mapper.Map<Application.Dto.BookDto>(book);
                 }
                 else
                 {
-                    var differentBook = await _context.Books.FirstOrDefaultAsync(b =>
-                        b.PublishedDate != book.PublishedDate ||
-                        b.Edition != book.Edition ||
-                        b.ISBN != book.ISBN ||
-                        b.PublisherId != book.PublisherId);
-                    if (differentBook != null)
-                    {
-                        var bookEntity = await _context.Books.AddAsync(book);
-                        await _context.SaveChangesAsync();
-                        return bookEntity.Entity;
+                    throw new InvalidOperationException(
+                        "BookDto already exist with same Title, Author but different Edition, ISBN, PublisherId, PublishedDate");
+                }
+            }
+            catch
+            {
+                _logger.LogError("Error while creating book");
+                throw;
+            }
+        }
 
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException(
-                            "Book already exist with same Title, Author but different Edition, ISBN, PublisherId, PublishedDate");
-                    }
+        public async Task<Application.Dto.BookDto> UpdateBookAsync(int id,Application.Dto.BookDto bookDto)
+        {
+            try
+            {
+                if (id != bookDto.Id)
+                {
+                    _logger.LogInformation("Id does not match!");
+                    return null;
                 }
 
+                if (!_context.Books.Any(b => b.Id == id))
+                    return null;
+
+                var book = _mapper.Map<BookDto>(bookDto);
+
+                _context.Entry(book).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                return _mapper.Map<Application.Dto.BookDto>(book);
             }
-            
-
-        }
-
-        public async Task<Book> UpdateBook(Book book)
-        {
-            _context.Entry(book).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return book;
-        }
-
-        public async Task<Book> DeleteBook(int id)
-        {
-            var book = await _context.Books.FindAsync(id);
-            if (book != null)
+            catch (Exception ex)
             {
+                _logger.LogWarning(ex, nameof(UpdateBookAsync));
+                return null;
+            }
+
+        }
+
+        public async Task<Application.Dto.BookDto> DeleteBookAsync(int id)
+        {
+            try
+            {
+                var book = await _context.Books.FindAsync(id);
+                if (book is null)
+                    return null;
                 _context.Books.Remove(book);
                 await _context.SaveChangesAsync();
+                return _mapper.Map<Application.Dto.BookDto>(book);
             }
-            return book;
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, nameof(DeleteBookAsync));
+                return null;
+            }
         }
 
-        public async Task<Publisher> GetPublisherByBook(int bookId)
+        public async Task<PublisherDto> GetPublisherByBookAsync(int bookId)
         {
-            var publisher = await _context.Publishers.Include(p => p.Books)
-                .FirstOrDefaultAsync(p => p.Books.Any(b => b.Id == bookId));
-            return publisher;
+            try
+            {
+                var publisher = await _context.Publishers.Include(p => p.Books)
+                    .FirstOrDefaultAsync(p => p.Books.Any(b => b.Id == bookId));
+                return _mapper.Map<PublisherDto>(publisher);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while getting publisher by book");
+                throw;
+            }
         }
 
     }

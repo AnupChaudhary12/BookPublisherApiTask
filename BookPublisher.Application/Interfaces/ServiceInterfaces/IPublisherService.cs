@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BookPublisher.Application.Dto;
+using BookDto = BookPublisher.Domain.Entities.BookDto;
 
 namespace BookPublisher.Application.Interfaces.ServiceInterfaces
 {
@@ -15,6 +16,6 @@ namespace BookPublisher.Application.Interfaces.ServiceInterfaces
         Task<Publisher> CreatePublisher(Publisher publisher);
         Task<Publisher> UpdatePublisher(Publisher publisher);
         Task<Publisher> DeletePublisher(int id);
-        Task<IEnumerable<Book>> GetBooksByPublisher(int publisherId);
+        Task<IEnumerable<BookDto>> GetBooksByPublisher(int publisherId);
     }
 }
